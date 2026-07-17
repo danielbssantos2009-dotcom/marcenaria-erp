@@ -11,9 +11,8 @@ datasource db {
 model Client {
   id        String    @id @default(cuid())
   name      String
-  email     String?
   phone     String?
-  total     Float     @default(0)
+  address   String?
   projects  Project[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -21,9 +20,8 @@ model Client {
 
 model Project {
   id        String    @id @default(cuid())
-  code      String    @unique
   name      String
-  status    String    @default("Projeto")
+  status    String    @default("ORCAMENTO")
   value     Float
   clientId  String
   client    Client    @relation(fields: [clientId], references: [id])
@@ -43,7 +41,6 @@ model Transaction {
 model AgendaEvent {
   id        String   @id @default(cuid())
   title     String
-  type      String
   date      DateTime
-  time      String
+  time      String?
 }
