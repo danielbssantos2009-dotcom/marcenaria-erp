@@ -25,28 +25,28 @@ export default function NewProjectDialog({ clients, defaultIsBudget = false }: {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="bg-[var(--color-brand-dark)] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider rounded hover:bg-zinc-800 transition-colors"
+        className="btn-neo btn-neo-dark px-5 py-2.5 text-[14px]"
       >
         + {defaultIsBudget ? 'Novo Orçamento' : 'Novo Projeto'}
       </button>
 
       {isOpen && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-200">
-            <h2 className="text-xl font-bold mb-4 tracking-tight">{defaultIsBudget ? 'Criar Orçamento' : 'Cadastrar Projeto'}</h2>
+        <div className="fixed inset-0 bg-zinc-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-[28px] p-8 w-full max-w-md shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] animate-in fade-in zoom-in-95 duration-200">
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 mb-6">{defaultIsBudget ? 'Criar Orçamento' : 'Cadastrar Projeto'}</h2>
             
             {clients.length === 0 ? (
-              <div className="text-sm text-zinc-500 py-4">
+              <div className="text-[15px] font-medium text-zinc-500 py-4">
                 Você precisa cadastrar um cliente primeiro antes de criar um projeto ou orçamento.
-                <div className="mt-4 flex justify-end">
-                  <button onClick={() => setIsOpen(false)} className="px-4 py-2 bg-zinc-200 rounded text-xs font-bold">Fechar</button>
+                <div className="mt-8 flex justify-end">
+                  <button onClick={() => setIsOpen(false)} className="btn-neo bg-zinc-100 text-zinc-600 hover:bg-zinc-200 px-6 py-3.5 text-[15px]">Fechar</button>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5">Cliente</label>
-                  <select required name="clientId" className="w-full border border-zinc-200 bg-zinc-50 p-2.5 text-sm rounded font-medium outline-none focus:border-zinc-400">
+                  <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Cliente</label>
+                  <select required name="clientId" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all">
                     <option value="">Selecione um cliente...</option>
                     {clients.map(c => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -54,35 +54,35 @@ export default function NewProjectDialog({ clients, defaultIsBudget = false }: {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5">Nome do Projeto/Obra</label>
-                  <input required type="text" name="name" className="w-full border border-zinc-200 bg-zinc-50 p-2.5 text-sm rounded font-medium outline-none focus:border-zinc-400" />
+                  <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Nome do Projeto/Obra</label>
+                  <input required type="text" name="name" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5">Valor (R$)</label>
-                  <input required type="number" step="0.01" name="value" className="w-full border border-zinc-200 bg-zinc-50 p-2.5 text-sm rounded font-medium outline-none focus:border-zinc-400" />
+                  <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Valor (R$)</label>
+                  <input required type="number" step="0.01" name="value" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
                 </div>
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5">Prazo de Entrega (Opcional)</label>
-                  <input type="date" name="deadline" className="w-full border border-zinc-200 bg-zinc-50 p-2.5 text-sm rounded font-medium outline-none focus:border-zinc-400" />
+                  <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Prazo de Entrega (Opcional)</label>
+                  <input type="date" name="deadline" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
                 </div>
 
-                <label className="flex items-center gap-2 mt-2">
-                  <input type="checkbox" name="isBudget" defaultChecked={defaultIsBudget} />
-                  <span className="text-sm font-medium text-zinc-700">Este é apenas um orçamento (ainda não fechado)</span>
+                <label className="flex items-center gap-3 mt-4 mb-2 cursor-pointer group">
+                  <input type="checkbox" name="isBudget" defaultChecked={defaultIsBudget} className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-900" />
+                  <span className="text-[14px] font-medium text-zinc-600 group-hover:text-zinc-900 transition-colors">Este é apenas um orçamento (ainda não fechado)</span>
                 </label>
                 
-                <div className="flex gap-3 justify-end mt-8 pt-4 border-t border-zinc-100">
+                <div className="flex gap-3 pt-4">
                   <button 
                     type="button" 
                     onClick={() => setIsOpen(false)}
-                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:bg-zinc-100 rounded transition-colors"
+                    className="flex-1 btn-neo bg-zinc-100 text-zinc-600 hover:bg-zinc-200 py-3.5 text-[15px]"
                   >
                     Cancelar
                   </button>
                   <button 
                     type="submit" 
                     disabled={loading}
-                    className="px-6 py-2 text-xs font-bold uppercase tracking-wider bg-[var(--color-brand-blue)] text-white hover:opacity-90 rounded transition-opacity disabled:opacity-50"
+                    className="flex-1 btn-neo btn-neo-dark py-3.5 text-[15px] disabled:opacity-50"
                   >
                     {loading ? 'Salvando...' : 'Salvar'}
                   </button>
