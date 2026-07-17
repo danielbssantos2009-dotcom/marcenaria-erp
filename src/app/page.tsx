@@ -40,6 +40,7 @@ export default async function DashboardPage() {
 
   const chartData = Array.from(chartDataMap.entries()).map(([name, val]) => ({ name, val }));
 
+  return (
     <div className="space-y-6 animate-in fade-in zoom-in duration-500">
       
       {/* Top KPIs - Estilo Referência */}
