@@ -355,7 +355,7 @@ const router = {
     if (this.routes[path]) {
       // Update nav active state
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      const activeNav = document.querySelector(\`.nav-item[data-path="\${path}"]\`);
+      const activeNav = document.querySelector(`.nav-item[data-path="${path}"]`);
       if (activeNav) activeNav.classList.add('active');
       
       // Update Header Title dynamically
