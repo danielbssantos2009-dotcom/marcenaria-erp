@@ -83,3 +83,22 @@ export async function updateProjectStatus(projectId: string, newStatus: string) 
   revalidatePath('/producao')
   revalidatePath('/instalacoes')
 }
+
+export async function wipeDatabase() {
+  // ATENÇÃO: Apaga todos os dados do banco!
+  await prisma.client.deleteMany()
+  await prisma.project.deleteMany()
+  await prisma.transaction.deleteMany()
+  await prisma.agendaEvent.deleteMany()
+  
+  revalidatePath('/')
+  revalidatePath('/clientes')
+  revalidatePath('/projetos')
+  revalidatePath('/orcamentos')
+  revalidatePath('/producao')
+  revalidatePath('/instalacoes')
+  revalidatePath('/agenda')
+  revalidatePath('/financeiro')
+  revalidatePath('/fluxo-caixa')
+  revalidatePath('/relatorios')
+}
