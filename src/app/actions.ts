@@ -52,6 +52,8 @@ export async function addProject(formData: FormData) {
     }
   })
   
+  revalidatePath('/projetos')
+  revalidatePath('/producao')
   revalidatePath('/orcamentos')
   revalidatePath('/')
 }
