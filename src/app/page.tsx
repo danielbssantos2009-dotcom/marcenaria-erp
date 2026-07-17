@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { PrismaClient } from '@prisma/client'
 import RevenueChart from '@/components/RevenueChart'
 import NewTransactionDialog from '@/components/NewTransactionDialog'
