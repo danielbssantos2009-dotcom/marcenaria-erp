@@ -1,149 +1,239 @@
-const router = {
-  routes: {},
-  add(path, handler) {
-    this.routes[path] = handler;
-  },
-  navigate(path) {
-    if (this.routes[path]) {
-      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-      const activeNav = document.querySelector(`.nav-item[data-path="${path}"]`);
-      if (activeNav) activeNav.classList.add('active');
-      
-      const container = document.getElementById('page-container');
-      container.innerHTML = this.routes[path]();
-    }
-  }
-};
-
-const data = {
-  projects: [
-    { id: 'P-101', name: 'Armários Cozinha', client: 'João Silva', status: 'fabricacao', value: 'R$ 14.500', date: '12 Ago 2026' },
-    { id: 'P-102', name: 'Home Theater', client: 'Maria Oliveira', status: 'medicao', value: 'R$ 8.200', date: '15 Ago 2026' },
-    { id: 'P-103', name: 'Guarda-roupa Casal', client: 'Carlos Santos', status: 'orcamento', value: 'R$ 12.000', date: '20 Ago 2026' },
-    { id: 'P-104', name: 'Mesa Escritório', client: 'Ana Costa', status: 'instalacao', value: 'R$ 3.500', date: '25 Ago 2026' }
-  ],
-  clients: [
-    { id: 'C-001', name: 'João Silva', email: 'joao@email.com', phone: '(11) 98765-4321', totalSpent: 'R$ 25.000' },
-    { id: 'C-002', name: 'Maria Oliveira', email: 'maria@email.com', phone: '(11) 91234-5678', totalSpent: 'R$ 8.200' },
-    { id: 'C-003', name: 'Carlos Santos', email: 'carlos@email.com', phone: '(11) 99876-5432', totalSpent: 'R$ 42.000' }
-  ]
-};
-
 const pages = {
   dashboard: () => `
-    <h1>Dashboard</h1>
-    <div class="grid grid-cols-4 mb-lg">
-      <div class="card">
-        <div class="card-title">Receita Mensal</div>
-        <div class="metric-value">R$ 42.500</div>
+    <!-- Top KPIs -->
+    <div class="grid grid-cols-4 mb-8">
+      <div class="card kpi-card red">
+        <div class="kpi-title">Projetos Ativos</div>
+        <div class="kpi-value">24</div>
+        <div class="kpi-sub">8 em produção <strong style="color:var(--text-main)">+3 semana</strong></div>
       </div>
-      <div class="card">
-        <div class="card-title">Projetos Ativos</div>
-        <div class="metric-value">12</div>
+      <div class="card kpi-card green">
+        <div class="kpi-title">Receita &bull; Mês</div>
+        <div class="kpi-value"><span style="font-size: 20px; font-weight: 600; color: var(--text-muted);">R$</span> 384.2K</div>
+        <div class="kpi-sub">Meta R$ 420K <strong style="color:var(--text-main)">91.5%</strong></div>
       </div>
-      <div class="card">
-        <div class="card-title">Instalações Hoje</div>
-        <div class="metric-value">2</div>
+      <div class="card kpi-card blue">
+        <div class="kpi-title">A Receber &bull; 30D</div>
+        <div class="kpi-value"><span style="font-size: 20px; font-weight: 600; color: var(--text-muted);">R$</span> 128.6K</div>
+        <div class="kpi-sub">7 títulos <strong style="color:var(--text-main)">&uarr; 12.4%</strong></div>
       </div>
-      <div class="card">
-        <div class="card-title">Aprovação Pend.</div>
-        <div class="metric-value">5</div>
+      <div class="card kpi-card yellow">
+        <div class="kpi-title">Instalações Semana</div>
+        <div class="kpi-value">06</div>
+        <div class="kpi-sub">2 em rota hoje <strong style="color:var(--text-main)">—</strong></div>
       </div>
     </div>
-    
-    <div class="grid grid-cols-2">
-      <div>
-        <h3 class="mb-lg">Projetos Recentes</h3>
-        <div class="table-wrapper">
+
+    <!-- Main Grid -->
+    <div class="grid grid-cols-12">
+      
+      <!-- Left Column (Pipeline & Chart) -->
+      <div class="col-span-8">
+        <div class="card mb-6">
+          <span class="section-title">OPERAÇÃO &bull; 24H</span>
+          <h2 class="section-header">Pipeline de Produção</h2>
+          
+          <div class="pipeline">
+            <div class="pipeline-step">
+              <div class="pipe-label">Projeto</div>
+              <div class="pipe-value mono">05</div>
+              <div class="pipe-bar-bg"><div class="pipe-bar-fill" style="width: 20%;"></div></div>
+              <div class="pipe-meta">20% do total</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipe-label">Corte</div>
+              <div class="pipe-value mono">04</div>
+              <div class="pipe-bar-bg"><div class="pipe-bar-fill" style="width: 16%;"></div></div>
+              <div class="pipe-meta">16% do total</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipe-label">Montagem</div>
+              <div class="pipe-value mono">06</div>
+              <div class="pipe-bar-bg"><div class="pipe-bar-fill" style="width: 25%;"></div></div>
+              <div class="pipe-meta">25% do total</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipe-label">Acabamento</div>
+              <div class="pipe-value mono">05</div>
+              <div class="pipe-bar-bg"><div class="pipe-bar-fill" style="width: 21%;"></div></div>
+              <div class="pipe-meta">21% do total</div>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipe-label">Expedição</div>
+              <div class="pipe-value mono">04</div>
+              <div class="pipe-bar-bg"><div class="pipe-bar-fill" style="width: 18%;"></div></div>
+              <div class="pipe-meta">18% do total</div>
+            </div>
+          </div>
+
+          <span class="section-title" style="margin-top: 32px;">RECEITA &bull; 12 MESES (R$ MIL)</span>
+          <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column (Agenda) -->
+      <div class="col-span-4">
+        <div class="card" style="height: 100%;">
+          <span class="section-title">17 JAN &bull; SEXTA</span>
+          <h2 class="section-header">Agenda de Hoje</h2>
+          
+          <div>
+            <div class="list-item flex-between gap-4">
+              <div class="mono text-muted text-sm" style="width: 45px;">08:30</div>
+              <div class="text-sm" style="flex:1;">Visita técnica — Ap. Vila N...</div>
+              <div class="badge blue">VISITA</div>
+            </div>
+            <div class="list-item flex-between gap-4">
+              <div class="mono text-muted text-sm" style="width: 45px;">10:00</div>
+              <div class="text-sm" style="flex:1;">Reunião cliente #041 Rocha</div>
+              <div class="badge dark">REUNIÃO</div>
+            </div>
+            <div class="list-item flex-between gap-4">
+              <div class="mono text-muted text-sm" style="width: 45px;">13:30</div>
+              <div class="text-sm" style="flex:1;">Instalação — Cozinha...</div>
+              <div class="badge yellow">INSTALAÇÃO</div>
+            </div>
+            <div class="list-item flex-between gap-4">
+              <div class="mono text-muted text-sm" style="width: 45px;">16:00</div>
+              <div class="text-sm" style="flex:1;">Aprovação de projeto ...</div>
+              <div class="badge red">APROVAÇÃO</div>
+            </div>
+            <div class="list-item flex-between gap-4">
+              <div class="mono text-muted text-sm" style="width: 45px;">17:30</div>
+              <div class="text-sm" style="flex:1;">Fechamento de caixa...</div>
+              <div class="badge green">FINANCEIRO</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Grid (Alerts & Projects) -->
+    <div class="grid grid-cols-12" style="margin-top: 24px;">
+      
+      <!-- Alerts -->
+      <div class="col-span-6">
+        <div class="card">
+          <span class="section-title">ATENÇÃO</span>
+          <h2 class="section-header">Alertas Operacionais</h2>
+          
+          <div class="list-item flex-between gap-4">
+            <div class="badge red">URGENTE</div>
+            <div class="mono text-muted text-sm" style="width: 60px;">P-198</div>
+            <div class="text-sm" style="flex:1;">Prazo de entrega em 2 dias — acabamento pendente</div>
+          </div>
+          <div class="list-item flex-between gap-4">
+            <div class="badge yellow">REVER</div>
+            <div class="mono text-muted text-sm" style="width: 60px;">OR-341</div>
+            <div class="text-sm" style="flex:1;">Orçamento aguardando resposta há 6 dias</div>
+          </div>
+          <div class="list-item flex-between gap-4">
+            <div class="badge yellow">REVER</div>
+            <div class="mono text-muted text-sm" style="width: 60px;">F-2201</div>
+            <div class="text-sm" style="flex:1;">Fatura vence em 48h — Rocha & Filhos</div>
+          </div>
+          <div class="list-item flex-between gap-4">
+            <div class="badge blue">INFO</div>
+            <div class="mono text-muted text-sm" style="width: 60px;">AG-19</div>
+            <div class="text-sm" style="flex:1;">Deslocamento de instalação reagendado</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Projects -->
+      <div class="col-span-6">
+        <div class="card">
+          <span class="section-title">MOVIMENTAÇÃO</span>
+          <h2 class="section-header">Últimos Projetos</h2>
+          
           <table>
-            <thead><tr><th>ID</th><th>Projeto</th><th>Status</th><th>Valor</th></tr></thead>
+            <thead>
+              <tr>
+                <th>CÓD.</th>
+                <th>CLIENTE</th>
+                <th>ETAPA</th>
+                <th class="text-right">VALOR</th>
+              </tr>
+            </thead>
             <tbody>
-              ${data.projects.slice(0,4).map(p => `
-                <tr>
-                  <td class="mono">${p.id}</td>
-                  <td><strong>${p.name}</strong></td>
-                  <td><span class="badge ${p.status === 'instalacao' ? 'danger' : 'outline'}">${p.status}</span></td>
-                  <td class="text-right mono">${p.value}</td>
-                </tr>
-              `).join('')}
+              <tr>
+                <td class="mono text-muted">P-212</td>
+                <td>Alves Arquitetura</td>
+                <td><span class="badge yellow">CORTE</span></td>
+                <td class="text-right mono">R$ 42.800</td>
+              </tr>
+              <tr>
+                <td class="mono text-muted">P-211</td>
+                <td>Cond. Vista Verde</td>
+                <td><span class="badge blue">MONTAGEM</span></td>
+                <td class="text-right mono">R$ 128.500</td>
+              </tr>
+              <tr>
+                <td class="mono text-muted">P-210</td>
+                <td>Marina S.</td>
+                <td><span class="badge green">ACABAMENTO</span></td>
+                <td class="text-right mono">R$ 36.900</td>
+              </tr>
+              <tr>
+                <td class="mono text-muted">P-209</td>
+                <td>Escritório Rocha</td>
+                <td><span class="badge dark">EXPEDIÇÃO</span></td>
+                <td class="text-right mono">R$ 74.200</td>
+              </tr>
+              <tr>
+                <td class="mono text-muted">P-208</td>
+                <td>Almeida Interiores</td>
+                <td><span class="badge red">PROJETO</span></td>
+                <td class="text-right mono">R$ 58.400</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div>
-        <h3 class="mb-lg">Agenda de Instalações</h3>
-        <div class="card" style="padding: 0; border: none; border-top: 2px solid var(--border-dark);">
-          ${data.projects.filter(p => p.status === 'instalacao').map(p => `
-            <div style="padding: var(--spacing-md) 0; border-bottom: 1px solid var(--border-color);">
-              <div class="flex-between">
-                <strong style="font-size: var(--font-lg); letter-spacing: -0.02em;">${p.date}</strong>
-                <span class="badge danger mono">${p.id}</span>
-              </div>
-              <div style="margin-top: var(--spacing-xs); font-weight: 500; font-size: var(--font-sm); text-transform: uppercase;">
-                ${p.name} <span style="color: var(--text-secondary);">// ${p.client}</span>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-  `,
-  
-  kanban: () => `
-    <h1>Produção</h1>
-    <div class="kanban-board">
-      ${['orcamento', 'medicao', 'fabricacao', 'instalacao'].map(col => `
-        <div class="kanban-column">
-          <div class="kanban-header">${col.toUpperCase()}</div>
-          ${data.projects.filter(p => p.status === col).map(p => `
-            <div class="kanban-item" draggable="true">
-              <div class="kanban-item-title">${p.name}</div>
-              <div class="kanban-item-meta mono mb-lg">${p.id} <br> ${p.client}</div>
-              <div class="flex-between">
-                <span class="badge danger">${p.date}</span>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `).join('')}
-    </div>
-  `,
-  
-  clients: () => `
-    <div class="flex-between mb-lg">
-      <h1>Clientes</h1>
-      <button class="badge danger" style="padding: 12px 24px; font-size: var(--font-sm); cursor: pointer; border:none; letter-spacing: 0.1em;">NOVO CLIENTE</button>
-    </div>
-    <div class="table-wrapper">
-      <table>
-        <thead><tr><th>ID</th><th>Nome</th><th>Contato</th><th>Telefone</th><th class="text-right">Total Gasto</th></tr></thead>
-        <tbody>
-          ${data.clients.map(c => `
-            <tr>
-              <td class="mono">${c.id}</td>
-              <td><strong>${c.name}</strong></td>
-              <td>${c.email}</td>
-              <td class="mono">${c.phone}</td>
-              <td class="text-right mono">${c.totalSpent}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      </table>
+
     </div>
   `
 };
 
-router.add('dashboard', pages.dashboard);
-router.add('kanban', pages.kanban);
-router.add('clients', pages.clients);
-
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.nav-item').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      router.navigate(e.target.dataset.path);
-    });
-  });
-  
-  router.navigate('dashboard');
+  const container = document.getElementById('page-container');
+  container.innerHTML = pages.dashboard();
+
+  // Initialize Chart.js
+  setTimeout(() => {
+    const ctx = document.getElementById('revenueChart');
+    if (ctx) {
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
+          datasets: [{
+            label: 'Receita',
+            data: [120, 150, 180, 140, 200, 250, 280, 310, 320, 290, 340, 384],
+            borderColor: '#e11d48',
+            backgroundColor: 'rgba(225, 29, 72, 0.1)',
+            borderWidth: 2,
+            pointBackgroundColor: '#e11d48',
+            pointRadius: 3,
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { display: false, min: 0 },
+            x: { 
+              grid: { display: false, drawBorder: false },
+              ticks: { font: { family: 'Space Mono', size: 10 }, color: '#71717a' }
+            }
+          }
+        }
+      });
+    }
+  }, 100);
 });
