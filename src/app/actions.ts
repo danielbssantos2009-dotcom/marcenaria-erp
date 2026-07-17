@@ -36,26 +36,36 @@ export async function addClient(formData: FormData) {
 }
 
 export async function addProject(formData: FormData) {
-  const name = formData.get('name') as string
-  const clientId = formData.get('clientId') as string
-  const value = parseFloat(formData.get('value') as string)
-  const deadlineStr = formData.get('deadline') as string
-  const isBudget = formData.get('isBudget') === 'on'
-  
-  await prisma.project.create({
-    data: {
-      name,
-      clientId,
-      value,
-      status: isBudget ? 'ORCAMENTO' : 'PRODUCAO',
-      deadline: deadlineStr ? new Date(deadlineStr) : null
+  try {
+    const name = formData.get('name') as string
+    const clientId = formData.get('clientId') as string
+    const value = parseFloat((formData.get('value') as string).replace(/\./g, '').replace(',', '.'))
+    const deadlineStr = formData.get('deadline') as string
+    const isBudget = formData.get('isBudget') === 'on'
+    
+    if (!name || !clientId || isNaN(value)) {
+      return { error: 'Preencha todos os campos obrigatórios corretamente.' }
     }
-  })
-  
-  revalidatePath('/projetos')
-  revalidatePath('/producao')
-  revalidatePath('/orcamentos')
-  revalidatePath('/')
+
+    await prisma.project.create({
+      data: {
+        name,
+        clientId,
+        value,
+        status: isBudget ? 'ORCAMENTO' : 'PRODUCAO',
+        deadline: deadlineStr ? new Date(deadlineStr) : null
+      }
+    })
+    
+    revalidatePath('/projetos')
+    revalidatePath('/producao')
+    revalidatePath('/orcamentos')
+    revalidatePath('/')
+    
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Ocorreu um erro ao salvar.' }
+  }
 }
 
 export async function addAgendaEvent(formData: FormData) {

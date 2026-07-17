@@ -43,7 +43,23 @@ export default function NewProjectDialog({ clients, defaultIsBudget = false }: {
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={async (e) => {
+                e.preventDefault()
+                setLoading(true)
+                try {
+                  const formData = new FormData(e.currentTarget)
+                  const res = await addProject(formData)
+                  if (res?.error) {
+                    alert("Erro ao salvar: " + res.error)
+                  } else {
+                    setIsOpen(false)
+                  }
+                } catch (err: any) {
+                  alert("Erro fatal: " + err.message)
+                } finally {
+                  setLoading(false)
+                }
+              }} className="space-y-5">
                 <div>
                   <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Cliente</label>
                   <select required name="clientId" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all">
@@ -66,10 +82,7 @@ export default function NewProjectDialog({ clients, defaultIsBudget = false }: {
                   <input type="date" name="deadline" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
                 </div>
 
-                <label className="flex items-center gap-3 mt-4 mb-2 cursor-pointer group">
-                  <input type="checkbox" name="isBudget" defaultChecked={defaultIsBudget} className="w-4 h-4 rounded text-zinc-900 focus:ring-zinc-900" />
-                  <span className="text-[14px] font-medium text-zinc-600 group-hover:text-zinc-900 transition-colors">Este é apenas um orçamento (ainda não fechado)</span>
-                </label>
+                <input type="hidden" name="isBudget" value={defaultIsBudget ? 'on' : ''} />
                 
                 <div className="flex gap-3 pt-4">
                   <button 
