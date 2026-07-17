@@ -52,7 +52,34 @@ export async function addProject(formData: FormData) {
     }
   })
   
-  revalidatePath('/projetos')
   revalidatePath('/orcamentos')
   revalidatePath('/')
+}
+
+export async function addAgendaEvent(formData: FormData) {
+  const title = formData.get('title') as string
+  const dateStr = formData.get('date') as string
+  const time = formData.get('time') as string
+  
+  await prisma.agendaEvent.create({
+    data: {
+      title,
+      date: new Date(dateStr),
+      time: time || null
+    }
+  })
+  
+  revalidatePath('/agenda')
+}
+
+export async function updateProjectStatus(projectId: string, newStatus: string) {
+  await prisma.project.update({
+    where: { id: projectId },
+    data: { status: newStatus }
+  })
+  
+  revalidatePath('/projetos')
+  revalidatePath('/orcamentos')
+  revalidatePath('/producao')
+  revalidatePath('/instalacoes')
 }
