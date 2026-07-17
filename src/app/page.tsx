@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { PrismaClient } from '@prisma/client'
 import RevenueChart from '@/components/RevenueChart'
 import NewTransactionDialog from '@/components/NewTransactionDialog'
+import { Wallet, Briefcase, TrendingUp, BarChart2, PieChart } from 'lucide-react'
 
 const prisma = new PrismaClient()
 
@@ -41,90 +42,121 @@ export default async function DashboardPage() {
   const chartData = Array.from(chartDataMap.entries()).map(([name, val]) => ({ name, val }));
 
   return (
-    <div className="space-y-6 animate-in fade-in zoom-in duration-500">
+    <div className="space-y-6 animate-in fade-in duration-700">
       
-      {/* Top KPIs - Estilo Referência */}
+      {/* Top KPIs - Estilo Neo Apple */}
       <div className="grid grid-cols-12 gap-6">
         
         {/* Total Balance / Ativos */}
-        <div className="col-span-5 card flex flex-col justify-between">
+        <div className="col-span-12 lg:col-span-5 neo-card flex flex-col justify-between h-[300px]">
           <div>
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-zinc-500 font-semibold text-sm">Projetos Ativos</span>
-              <span className="bg-zinc-100 text-zinc-600 px-3 py-1 rounded-full text-xs font-bold">Hoje</span>
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-zinc-500 font-medium text-[15px]">Projetos Ativos</span>
+              <span className="bg-zinc-100 text-zinc-600 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1">
+                <Briefcase size={14} /> Hoje
+              </span>
             </div>
-            <div className="text-5xl font-extrabold text-zinc-800 mb-2">{projects.length}</div>
-            <div className="text-sm font-medium text-green-600 flex items-center gap-1">
-              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">↑ 12%</span> em relação ao mês passado
+            <div className="text-[64px] leading-none font-bold text-zinc-900 tracking-tight mb-3">
+              {projects.length}
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">↑ 12%</span> 
+              <span className="text-sm font-medium text-zinc-400">em relação ao mês passado</span>
             </div>
           </div>
           <div className="flex gap-4 mt-8">
-            <button className="flex-1 bg-zinc-900 text-white rounded-full py-3 font-semibold text-sm hover:bg-zinc-800 transition-all hover:scale-105 shadow-md">
+            <button className="flex-1 btn-neo btn-neo-dark py-3.5 text-[15px]">
               Ver Projetos
             </button>
-            <button className="flex-1 bg-white border border-zinc-200 text-zinc-800 rounded-full py-3 font-semibold text-sm hover:bg-zinc-50 transition-all hover:scale-105 shadow-sm">
+            <button className="flex-1 btn-neo btn-neo-light py-3.5 text-[15px]">
               Novo Projeto
             </button>
           </div>
         </div>
 
         {/* 4 Mini Cards (Earnings, Spending, Income, Revenue) */}
-        <div className="col-span-7 grid grid-cols-2 gap-6">
+        <div className="col-span-12 lg:col-span-7 grid grid-cols-2 gap-6 h-[300px]">
           
-          <div className="card card-gradient flex flex-col justify-center">
-            <span className="text-xs-mono mb-2 text-white/80">Receita Total</span>
-            <div className="text-3xl font-extrabold mb-1">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-            <span className="text-xs font-medium text-white/90">↑ 7% este mês</span>
+          <div className="neo-card neo-card-gradient flex flex-col justify-between relative overflow-hidden group cursor-pointer">
+            <div className="flex justify-between items-start z-10">
+              <span className="text-xs-mono text-white/80">RECEITA TOTAL</span>
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm"><Wallet size={16} color="white" /></div>
+            </div>
+            <div className="z-10">
+              <div className="text-[40px] leading-none font-bold tracking-tight mb-2">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+              <span className="text-[13px] font-medium text-white/90">↑ 7% este mês</span>
+            </div>
           </div>
           
-          <div className="card flex flex-col justify-center bg-white">
-            <span className="text-xs-mono mb-2">Despesas (Est.)</span>
-            <div className="text-3xl font-extrabold mb-1 text-zinc-800">R$ 0,00</div>
-            <span className="text-xs font-medium text-red-500">↓ 5% este mês</span>
+          <div className="neo-card flex flex-col justify-between cursor-pointer">
+            <div className="flex justify-between items-start">
+              <span className="text-xs-mono text-zinc-500">DESPESAS (EST.)</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><TrendingUp size={16} className="text-zinc-400" /></div>
+            </div>
+            <div>
+              <div className="text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">R$ 0,00</div>
+              <span className="text-[13px] font-medium text-red-500">↓ 5% este mês</span>
+            </div>
           </div>
           
-          <div className="card flex flex-col justify-center bg-white">
-            <span className="text-xs-mono mb-2">Lucro Líquido</span>
-            <div className="text-3xl font-extrabold mb-1 text-zinc-800">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-            <span className="text-xs font-medium text-green-500">↑ 8% este mês</span>
+          <div className="neo-card flex flex-col justify-between cursor-pointer">
+            <div className="flex justify-between items-start">
+              <span className="text-xs-mono text-zinc-500">LUCRO LÍQUIDO</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><BarChart2 size={16} className="text-zinc-400" /></div>
+            </div>
+            <div>
+              <div className="text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+              <span className="text-[13px] font-medium text-green-500">↑ 8% este mês</span>
+            </div>
           </div>
 
-          <div className="card flex flex-col justify-center bg-white">
-            <span className="text-xs-mono mb-2">Taxa de Conversão</span>
-            <div className="text-3xl font-extrabold mb-1 text-zinc-800">100%</div>
-            <span className="text-xs font-medium text-green-500">↑ 4% este mês</span>
+          <div className="neo-card flex flex-col justify-between cursor-pointer">
+            <div className="flex justify-between items-start">
+              <span className="text-xs-mono text-zinc-500">TAXA DE CONVERSÃO</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><PieChart size={16} className="text-zinc-400" /></div>
+            </div>
+            <div>
+              <div className="text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">100%</div>
+              <span className="text-[13px] font-medium text-green-500">↑ 4% este mês</span>
+            </div>
           </div>
 
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-8">
-        <div className="col-span-8 space-y-6">
-          <div className="card">
-            <span className="text-xs-mono mb-2 block">RECEITA • ÚLTIMOS MESES</span>
-            <div className="h-[250px] w-full mt-4 bg-zinc-50 rounded p-4">
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 lg:col-span-7 space-y-6">
+          <div className="neo-card">
+            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4">
+               <span className="text-[14px] font-bold text-zinc-800">Receita &bull; Últimos Meses</span>
+            </div>
+            <div className="h-[250px] w-full">
               <RevenueChart data={chartData} />
             </div>
           </div>
         </div>
 
-        <div className="col-span-4">
-           <div className="card h-full">
-            <div className="flex justify-between items-center mb-4 border-b border-zinc-100 pb-2">
-              <span className="text-xs-mono">TRANSAÇÕES RECENTES</span>
+        <div className="col-span-12 lg:col-span-5">
+           <div className="neo-card h-full">
+            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4">
+              <span className="text-[14px] font-bold text-zinc-800">Transações Recentes</span>
               <NewTransactionDialog />
             </div>
-            <div className="space-y-4">
+            <div className="space-y-1">
               {recentTransactions.map(t => (
-                <div key={t.id} className="flex justify-between items-center pb-3 border-b border-[var(--color-border-light)] last:border-0">
-                  <div>
-                    <div className="text-sm font-semibold">{t.description}</div>
+                <div key={t.id} className="flex justify-between items-center py-3 hover:bg-zinc-50 px-2 rounded-xl transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                     <div className={`w-2 h-2 rounded-full ${t.type === 'IN' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                     <span className="text-[14px] font-medium text-zinc-700">{t.description}</span>
                   </div>
-                  <div className={`font-mono font-bold ${t.type === 'IN' ? 'text-[var(--color-brand-green)]' : 'text-[var(--color-brand-red)]'}`}>
-                    {t.type === 'IN' ? '+' : '-'} R$ {Math.abs(t.value).toLocaleString()}
+                  <div className={`font-semibold text-[15px] ${t.type === 'IN' ? 'text-zinc-900' : 'text-zinc-900'}`}>
+                    {t.type === 'IN' ? '+' : '-'} R$ {Math.abs(t.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </div>
                 </div>
               ))}
+              {recentTransactions.length === 0 && (
+                <div className="text-center text-zinc-400 py-4 text-sm">Nenhuma transação recente.</div>
+              )}
             </div>
           </div>
         </div>

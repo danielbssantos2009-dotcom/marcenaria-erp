@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
   --font-mono: 'Space Mono', monospace;
 
-  /* Fundo super claro igual a referência */
-  --color-bg-app: #f4f5f7;
+  /* Fundo exato da referência */
+  --color-bg-app: #f2f3f5;
   --color-bg-card: #ffffff;
   
-  /* Textos */
-  --color-text-main: #111827;
-  --color-text-muted: #6b7280;
-  --color-border-light: #f3f4f6;
+  /* Textos estilo Apple */
+  --color-text-main: #111827; /* Quase preto suave */
+  --color-text-muted: #6b7280; /* Cinza médio para subtítulos */
+  --color-text-light: #9ca3af;
+  --color-border-light: rgba(0, 0, 0, 0.04);
 
-  /* Paleta Terracota / Marrom (O "pouquinho mais marrom" do cliente) */
-  --color-brand-primary: #A0522D; /* Sienna / Terracota */
-  --color-brand-light: #d97706; /* Laranja Âmbar para gradientes */
-  --color-brand-dark: #18181b; /* Quase preto para contrastes fortes */
+  /* O "marrom" solicitado, inspirado no laranja da referência mas mais terroso */
+  --color-brand-primary: #9C4522; 
+  --color-brand-light: #C85A2D; 
+  --color-brand-dark: #18181b; 
   
   --color-brand-green: #10b981;
   --color-brand-red: #ef4444;
@@ -27,50 +28,67 @@
     background-color: var(--color-bg-app);
     color: var(--color-text-main);
     font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer utilities {
   .text-xs-mono { 
-    font-size: 11px; 
-    text-transform: uppercase; 
-    letter-spacing: 0.05em; 
-    font-weight: 700; 
+    font-size: 12px; 
+    font-weight: 500; 
     color: var(--color-text-muted); 
   }
   
-  .badge { 
-    display: inline-flex; 
-    align-items: center; 
-    justify-content: center; 
-    padding: 6px 12px; 
-    font-size: 11px; 
-    font-weight: 700; 
-    border-radius: 9999px;
-    letter-spacing: 0.02em; 
-  }
-  
-  /* O novo card super arredondado e sem borda forte */
-  .card {
+  /* O efeito "Neo Glass" da referência */
+  .neo-card {
     background: var(--color-bg-card);
+    border-radius: 28px; /* Cantos super arredondados da referência */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02);
     padding: 24px;
-    border-radius: 1.5rem; /* 24px - Super arredondado */
-    box-shadow: 0 4px 20px -5px rgba(0,0,0,0.03);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  .card:hover {
+  .neo-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.02);
   }
 
-  /* Gradiente especial para cards de destaque */
-  .card-gradient {
-    background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-light));
+  /* Gradiente especial para cards de destaque (Marrom/Laranja da referência) */
+  .neo-card-gradient {
+    background: linear-gradient(135deg, var(--color-brand-light) 0%, var(--color-brand-primary) 100%);
     color: white;
+    border: none;
+    box-shadow: 0 15px 30px -10px rgba(156, 69, 34, 0.4);
   }
   
-  .card-gradient .text-xs-mono {
+  .neo-card-gradient .text-xs-mono, .neo-card-gradient .text-muted {
     color: rgba(255,255,255,0.8);
   }
+
+  /* Botões redondinhos estilo Apple */
+  .btn-neo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-neo-dark {
+    background: var(--color-brand-dark);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .btn-neo-dark:hover { background: #000; transform: scale(1.02); }
+
+  .btn-neo-light {
+    background: white;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border-light);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .btn-neo-light:hover { background: #f9fafb; transform: scale(1.02); }
 }
