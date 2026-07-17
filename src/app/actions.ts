@@ -21,3 +21,38 @@ export async function addTransaction(formData: FormData) {
   // Revalida a página inicial para atualizar a lista instantaneamente
   revalidatePath('/')
 }
+
+export async function addClient(formData: FormData) {
+  const name = formData.get('name') as string
+  const phone = formData.get('phone') as string
+  const address = formData.get('address') as string
+
+  await prisma.client.create({
+    data: { name, phone, address }
+  })
+  
+  revalidatePath('/clientes')
+  revalidatePath('/projetos')
+}
+
+export async function addProject(formData: FormData) {
+  const name = formData.get('name') as string
+  const clientId = formData.get('clientId') as string
+  const value = parseFloat(formData.get('value') as string)
+  const deadlineStr = formData.get('deadline') as string
+  const isBudget = formData.get('isBudget') === 'on'
+  
+  await prisma.project.create({
+    data: {
+      name,
+      clientId,
+      value,
+      status: isBudget ? 'ORCAMENTO' : 'PRODUCAO',
+      deadline: deadlineStr ? new Date(deadlineStr) : null
+    }
+  })
+  
+  revalidatePath('/projetos')
+  revalidatePath('/orcamentos')
+  revalidatePath('/')
+}
