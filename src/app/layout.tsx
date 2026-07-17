@@ -15,11 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="flex h-screen overflow-hidden antialiased">
+      <body className="flex h-screen overflow-hidden antialiased bg-[var(--color-bg-app)]">
         <Sidebar />
-        <main className="flex-1 flex flex-col overflow-y-auto">
+        <main className="flex-1 flex flex-col overflow-y-auto px-4 md:px-8">
           <Header />
-          <div className="p-8 md:p-10 max-w-[1400px] w-full mx-auto flex-1">
+          <div className="max-w-[1400px] w-full mx-auto flex-1 pb-10">
             {children}
           </div>
         </main>

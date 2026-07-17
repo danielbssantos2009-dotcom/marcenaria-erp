@@ -2,59 +2,60 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { LayoutDashboard, FolderKanban, Factory, Hammer, CalendarDays, Users, FileText, DollarSign, Activity, PieChart, Info, LogOut } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: 'Dashboard', path: '/', num: '01', group: 'Operação' },
-    { name: 'Projetos', path: '/projetos', num: '02' },
-    { name: 'Produção', path: '/producao', num: '03' },
-    { name: 'Instalações', path: '/instalacoes', num: '04' },
-    { name: 'Agenda', path: '/agenda', num: '05' },
-    { name: 'Clientes', path: '/clientes', num: '06', group: 'Comercial' },
-    { name: 'Orçamentos', path: '/orcamentos', num: '07' },
-    { name: 'Financeiro', path: '/financeiro', num: '08', group: 'Financeiro' },
-    { name: 'Fluxo de Caixa', path: '/fluxo-caixa', num: '09' },
-    { name: 'Relatórios', path: '/relatorios', num: '10' },
+    { name: 'Dashboard', path: '/', icon: <LayoutDashboard size={20} /> },
+    { name: 'Projetos', path: '/projetos', icon: <FolderKanban size={20} /> },
+    { name: 'Produção', path: '/producao', icon: <Factory size={20} /> },
+    { name: 'Instalações', path: '/instalacoes', icon: <Hammer size={20} /> },
+    { name: 'Agenda', path: '/agenda', icon: <CalendarDays size={20} /> },
+    { name: 'Clientes', path: '/clientes', icon: <Users size={20} /> },
+    { name: 'Orçamentos', path: '/orcamentos', icon: <FileText size={20} /> },
+    { name: 'Financeiro', path: '/financeiro', icon: <DollarSign size={20} /> },
+    { name: 'Fluxo de Caixa', path: '/fluxo-caixa', icon: <Activity size={20} /> },
+    { name: 'Relatórios', path: '/relatorios', icon: <PieChart size={20} /> },
   ];
 
   return (
-    <aside className="w-[260px] bg-[var(--color-bg-sidebar)] text-[var(--color-text-sidebar)] flex flex-col shrink-0">
-      <div className="p-6 flex items-center gap-3 border-b border-white/5">
-        <div className="bg-[var(--color-brand-red)] text-white w-8 h-8 flex items-center justify-center font-bold text-sm">ND</div>
-        <div>
-          <div className="text-sm font-semibold text-white leading-tight">Nova Design</div>
-          <div className="text-[10px] text-[var(--color-text-sidebar)] uppercase tracking-widest">Marcenaria &bull; ERP</div>
-        </div>
+    <aside className="w-20 my-6 ml-6 bg-white shadow-xl rounded-[2rem] flex flex-col items-center py-6 shrink-0 z-50">
+      
+      {/* Logotipo Simplificado */}
+      <div className="w-10 h-10 bg-[var(--color-brand-primary)] text-white flex items-center justify-center font-bold text-sm rounded-xl shadow-lg mb-8">
+        ND
       </div>
 
-      <nav className="flex-1 mt-4">
-        {navItems.map((item, idx) => (
-          <div key={item.path}>
-            {item.group && (
-              <div className="pt-4 pb-2 pl-6 text-[10px] uppercase tracking-widest font-bold text-zinc-600">
-                {item.group}
-              </div>
-            )}
+      <nav className="flex-1 flex flex-col gap-4 w-full px-4">
+        {navItems.map((item) => {
+          const isActive = pathname === item.path;
+          return (
             <Link 
+              key={item.path}
               href={item.path} 
-              className={`flex items-center py-2.5 px-6 text-[13px] font-medium transition-colors border-r-4 ${
-                pathname === item.path 
-                  ? 'bg-white/5 text-white border-[var(--color-brand-red)]' 
-                  : 'border-transparent hover:bg-white/5 hover:text-white'
+              title={item.name}
+              className={`flex items-center justify-center w-12 h-12 mx-auto rounded-full transition-all duration-300 hover:scale-110 ${
+                isActive 
+                  ? 'bg-[var(--color-brand-primary)] text-white shadow-md' 
+                  : 'text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700'
               }`}
             >
-              <span className="font-mono text-[11px] mr-3 opacity-50">{item.num}</span>
-              {item.name}
+              {item.icon}
             </Link>
-          </div>
-        ))}
+          );
+        })}
       </nav>
 
-      <div className="p-6 text-[10px] text-[var(--color-text-sidebar)] font-mono tracking-widest">
-        VERSÃO<br/>
-        <strong className="text-white">2026.01 &bull; react</strong>
+      {/* Ícones de Rodapé */}
+      <div className="flex flex-col gap-4 mt-8">
+        <button className="w-12 h-12 rounded-full flex items-center justify-center text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition-all hover:scale-110">
+          <Info size={20} />
+        </button>
+        <button className="w-12 h-12 rounded-full flex items-center justify-center text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition-all hover:scale-110">
+          <LogOut size={20} />
+        </button>
       </div>
     </aside>
   );

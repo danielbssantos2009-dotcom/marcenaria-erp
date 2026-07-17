@@ -40,22 +40,60 @@ export default async function DashboardPage() {
 
   const chartData = Array.from(chartDataMap.entries()).map(([name, val]) => ({ name, val }));
 
-  return (
-    <div className="space-y-6 animate-in fade-in zoom-in duration-300">
+    <div className="space-y-6 animate-in fade-in zoom-in duration-500">
       
-      {/* Top KPIs */}
-      <div className="grid grid-cols-4 gap-6">
-        <div className="card border-l-4 border-l-[var(--color-brand-red)]">
-          <div className="text-xs-mono mb-2">Projetos Ativos</div>
-          <div className="text-3xl font-extrabold mb-1">{projects.length}</div>
-          <div className="text-xs text-[var(--color-text-muted)] font-medium">Obras em andamento</div>
-        </div>
-        <div className="card border-l-4 border-l-[var(--color-brand-green)]">
-          <div className="text-xs-mono mb-2">Receita Total</div>
-          <div className="text-3xl font-extrabold mb-1 flex items-baseline gap-2 truncate">
-            <span className="text-lg text-zinc-400 font-semibold">R$</span> {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      {/* Top KPIs - Estilo Referência */}
+      <div className="grid grid-cols-12 gap-6">
+        
+        {/* Total Balance / Ativos */}
+        <div className="col-span-5 card flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-zinc-500 font-semibold text-sm">Projetos Ativos</span>
+              <span className="bg-zinc-100 text-zinc-600 px-3 py-1 rounded-full text-xs font-bold">Hoje</span>
+            </div>
+            <div className="text-5xl font-extrabold text-zinc-800 mb-2">{projects.length}</div>
+            <div className="text-sm font-medium text-green-600 flex items-center gap-1">
+              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs">↑ 12%</span> em relação ao mês passado
+            </div>
           </div>
-          <div className="text-xs text-[var(--color-text-muted)] font-medium">Extraído do Banco Neon</div>
+          <div className="flex gap-4 mt-8">
+            <button className="flex-1 bg-zinc-900 text-white rounded-full py-3 font-semibold text-sm hover:bg-zinc-800 transition-all hover:scale-105 shadow-md">
+              Ver Projetos
+            </button>
+            <button className="flex-1 bg-white border border-zinc-200 text-zinc-800 rounded-full py-3 font-semibold text-sm hover:bg-zinc-50 transition-all hover:scale-105 shadow-sm">
+              Novo Projeto
+            </button>
+          </div>
+        </div>
+
+        {/* 4 Mini Cards (Earnings, Spending, Income, Revenue) */}
+        <div className="col-span-7 grid grid-cols-2 gap-6">
+          
+          <div className="card card-gradient flex flex-col justify-center">
+            <span className="text-xs-mono mb-2 text-white/80">Receita Total</span>
+            <div className="text-3xl font-extrabold mb-1">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+            <span className="text-xs font-medium text-white/90">↑ 7% este mês</span>
+          </div>
+          
+          <div className="card flex flex-col justify-center bg-white">
+            <span className="text-xs-mono mb-2">Despesas (Est.)</span>
+            <div className="text-3xl font-extrabold mb-1 text-zinc-800">R$ 0,00</div>
+            <span className="text-xs font-medium text-red-500">↓ 5% este mês</span>
+          </div>
+          
+          <div className="card flex flex-col justify-center bg-white">
+            <span className="text-xs-mono mb-2">Lucro Líquido</span>
+            <div className="text-3xl font-extrabold mb-1 text-zinc-800">R$ {totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+            <span className="text-xs font-medium text-green-500">↑ 8% este mês</span>
+          </div>
+
+          <div className="card flex flex-col justify-center bg-white">
+            <span className="text-xs-mono mb-2">Taxa de Conversão</span>
+            <div className="text-3xl font-extrabold mb-1 text-zinc-800">100%</div>
+            <span className="text-xs font-medium text-green-500">↑ 4% este mês</span>
+          </div>
+
         </div>
       </div>
 
