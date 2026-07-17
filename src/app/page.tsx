@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import RevenueChart from '@/components/RevenueChart'
+import NewTransactionDialog from '@/components/NewTransactionDialog'
 
 const prisma = new PrismaClient()
 
@@ -45,8 +46,11 @@ export default async function DashboardPage() {
 
         <div className="col-span-4">
            <div className="card h-full">
-            <span className="text-xs-mono mb-2 block">TRANSAÇÕES RECENTES</span>
-            <div className="mt-4 space-y-4">
+            <div className="flex justify-between items-center mb-4 border-b border-zinc-100 pb-2">
+              <span className="text-xs-mono">TRANSAÇÕES RECENTES</span>
+              <NewTransactionDialog />
+            </div>
+            <div className="space-y-4">
               {transactions.map(t => (
                 <div key={t.id} className="flex justify-between items-center pb-3 border-b border-[var(--color-border-light)] last:border-0">
                   <div>
