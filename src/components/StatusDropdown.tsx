@@ -25,7 +25,7 @@ export default function StatusDropdown({ projectId, currentStatus }: { projectId
       value={currentStatus} 
       onChange={handleChange}
       disabled={isPending}
-      className={\`border border-zinc-200 text-xs font-bold uppercase tracking-wider rounded px-2 py-1 outline-none \${isPending ? 'opacity-50' : 'cursor-pointer'}\`}
+      className={`border border-zinc-200 text-xs font-bold uppercase tracking-wider rounded px-2 py-1 outline-none ${isPending ? 'opacity-50' : 'cursor-pointer'}`}
     >
       {STATUS_OPTIONS.map(opt => (
         <option key={opt.value} value={opt.value}>{opt.label}</option>

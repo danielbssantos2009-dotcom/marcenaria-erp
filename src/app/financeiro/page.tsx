@@ -33,7 +33,7 @@ export default async function FinanceiroPage() {
           <div className="text-xs-mono mb-2">Total Despesas</div>
           <div className="text-2xl font-extrabold text-red-600">R$ {totalOut.toFixed(2)}</div>
         </div>
-        <div className={\`card border-l-4 \${balance >= 0 ? 'border-l-blue-500' : 'border-l-orange-500'}\`}>
+        <div className={`card border-l-4 ${balance >= 0 ? 'border-l-blue-500' : 'border-l-orange-500'}`}>
           <div className="text-xs-mono mb-2">Saldo Geral</div>
           <div className="text-2xl font-extrabold text-zinc-800">R$ {balance.toFixed(2)}</div>
         </div>
@@ -62,11 +62,11 @@ export default async function FinanceiroPage() {
                   <td className="p-4 font-bold text-sm text-[var(--color-brand-dark)]">{t.description}</td>
                   <td className="p-4 font-medium text-sm text-zinc-500">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
                   <td className="p-4">
-                    <span className={\`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider \${t.type === 'IN' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}\`}>
+                    <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${t.type === 'IN' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                       {t.type === 'IN' ? 'Receita' : 'Despesa'}
                     </span>
                   </td>
-                  <td className={\`p-4 text-right font-bold text-sm \${t.type === 'IN' ? 'text-green-600' : 'text-red-600'}\`}>
+                  <td className={`p-4 text-right font-bold text-sm ${t.type === 'IN' ? 'text-green-600' : 'text-red-600'}`}>
                     {t.type === 'IN' ? '+' : '-'} R$ {Math.abs(t.value).toFixed(2)}
                   </td>
                 </tr>

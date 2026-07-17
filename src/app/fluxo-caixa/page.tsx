@@ -48,12 +48,12 @@ export default async function FluxoCaixaPage() {
                   <td className="p-4 font-medium text-sm text-zinc-500">{new Date(t.date).toLocaleDateString('pt-BR')}</td>
                   <td className="p-4 font-bold text-sm text-[var(--color-brand-dark)]">{t.description}</td>
                   <td className="p-4 text-right font-bold text-sm text-green-600">
-                    {t.isReceita ? \`R$ \${t.valor.toFixed(2)}\` : '-'}
+                    {t.isReceita ? `R$ ${t.valor.toFixed(2)}` : '-'}
                   </td>
                   <td className="p-4 text-right font-bold text-sm text-red-600">
-                    {!t.isReceita ? \`R$ \${t.valor.toFixed(2)}\` : '-'}
+                    {!t.isReceita ? `R$ ${t.valor.toFixed(2)}` : '-'}
                   </td>
-                  <td className={\`p-4 text-right font-bold text-sm \${t.balanceAcumulado >= 0 ? 'text-zinc-800' : 'text-red-600'}\`}>
+                  <td className={`p-4 text-right font-bold text-sm ${t.balanceAcumulado >= 0 ? 'text-zinc-800' : 'text-red-600'}`}>
                     R$ {t.balanceAcumulado.toFixed(2)}
                   </td>
                 </tr>

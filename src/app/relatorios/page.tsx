@@ -51,7 +51,7 @@ export default async function RelatoriosPage() {
                 <span className="font-bold">R$ {totalBudget.toFixed(2)}</span>
               </div>
               <div className="h-2 bg-zinc-800 rounded overflow-hidden">
-                <div className="h-full bg-zinc-500" style={{ width: \`\${(totalBudget / (totalBudget + totalApproved || 1)) * 100}%\`}}></div>
+                <div className="h-full bg-zinc-500" style={{ width: `${(totalBudget / (totalBudget + totalApproved || 1)) * 100}%`}}></div>
               </div>
             </div>
             <div>
@@ -60,7 +60,7 @@ export default async function RelatoriosPage() {
                 <span className="font-bold text-green-400">R$ {totalApproved.toFixed(2)}</span>
               </div>
               <div className="h-2 bg-zinc-800 rounded overflow-hidden">
-                <div className="h-full bg-green-500" style={{ width: \`\${(totalApproved / (totalBudget + totalApproved || 1)) * 100}%\`}}></div>
+                <div className="h-full bg-green-500" style={{ width: `${(totalApproved / (totalBudget + totalApproved || 1)) * 100}%`}}></div>
               </div>
             </div>
           </div>
