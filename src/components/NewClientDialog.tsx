@@ -42,13 +42,30 @@ export default function NewClientDialog() {
                 <input required type="text" name="name" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
               </div>
               <div>
-                <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Telefone</label>
+                <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Telefone (Whatsapp)</label>
                 <input 
                   type="tel" 
                   name="phone" 
-                  pattern="[\+0-9\-\(\)\s]{8,25}"
-                  title="O número deve conter no mínimo 8 dígitos (pode usar +, - e parênteses)"
-                  onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^\d\+\-\(\)\s]/g, '') }}
+                  maxLength={19}
+                  placeholder="(11) 99999-9999"
+                  title="Digite DDD + número (10 ou 11 dígitos), ou +DDI para internacional"
+                  onInput={(e) => { 
+                    let v = e.currentTarget.value;
+                    if (v.startsWith('+')) {
+                      e.currentTarget.value = '+' + v.replace(/\D/g, '').substring(0, 15);
+                    } else {
+                      let digits = v.replace(/\D/g, '').substring(0, 11);
+                      if (digits.length > 10) {
+                        e.currentTarget.value = digits.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                      } else if (digits.length > 6) {
+                        e.currentTarget.value = digits.replace(/^(\d{2})(\d{4,5})(\d{0,4})/, '($1) $2-$3');
+                      } else if (digits.length > 2) {
+                        e.currentTarget.value = digits.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+                      } else {
+                        e.currentTarget.value = digits;
+                      }
+                    }
+                  }}
                   className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" 
                 />
               </div>

@@ -30,12 +30,18 @@ export async function addClient(formData: FormData) {
 
     if (!name) return { error: 'O nome do cliente é obrigatório.' }
 
-    // Limpa tudo que não for dígito, +, -, () ou espaço
     if (phone) {
-      phone = phone.replace(/[^\d\+\-\(\)\s]/g, '')
+      const hasPlus = phone.includes('+')
       const digitsOnly = phone.replace(/\D/g, '')
-      if (digitsOnly.length > 0 && digitsOnly.length < 8) {
-        return { error: 'O número de telefone deve ter pelo menos 8 dígitos.' }
+      
+      if (hasPlus) {
+        if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+          return { error: 'O número internacional deve ter entre 10 e 15 dígitos.' }
+        }
+      } else {
+        if (digitsOnly.length !== 10 && digitsOnly.length !== 11) {
+          return { error: 'O telefone deve conter o DDD + o número (exatamente 10 ou 11 dígitos).' }
+        }
       }
     }
 
