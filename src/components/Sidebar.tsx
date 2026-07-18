@@ -21,7 +21,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-[84px] my-6 ml-6 bg-white shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] rounded-[2rem] flex flex-col items-center py-8 shrink-0 z-50">
+    <aside className="w-[84px] my-6 ml-6 bg-white shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] rounded-[2rem] flex flex-col items-center py-8 shrink-0 z-50 print:hidden">
       
       {/* Logotipo Redondo e Sutil */}
       <div className="w-11 h-11 bg-zinc-900 text-white flex items-center justify-center font-bold text-sm rounded-2xl mb-8 shadow-md">

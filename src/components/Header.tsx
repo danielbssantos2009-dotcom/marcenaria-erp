@@ -8,7 +8,7 @@ export default function Header() {
   const pathname = usePathname();
   
   return (
-    <header className="py-8 flex justify-between items-center bg-transparent">
+    <header className="py-8 flex justify-between items-center bg-transparent print:hidden">
       
       {/* Saudação estilo Apple */}
       <div className="flex flex-col">
