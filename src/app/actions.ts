@@ -191,7 +191,8 @@ export async function approveQuote(projectId: string) {
       where: { id: projectId },
       data: { 
         status: 'PRODUCAO', // Sai de ORCAMENTO e vira um projeto em Produção
-        quoteStatus: 'APROVADO'
+        quoteStatus: 'APROVADO',
+        productionStatus: 'FILA'
       }
     })
     revalidatePath('/orcamentos')
@@ -201,6 +202,37 @@ export async function approveQuote(projectId: string) {
     return { success: true }
   } catch (err: any) {
     return { error: err.message || 'Erro ao aprovar orçamento.' }
+  }
+}
+
+export async function updateProductionStatus(projectId: string, productionStatus: string) {
+  try {
+    await prisma.project.update({
+      where: { id: projectId },
+      data: { productionStatus }
+    })
+    revalidatePath('/producao')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao atualizar produção.' }
+  }
+}
+
+export async function sendToInstallation(projectId: string) {
+  try {
+    await prisma.project.update({
+      where: { id: projectId },
+      data: { 
+        status: 'INSTALACAO',
+        productionStatus: 'PRONTO'
+      }
+    })
+    revalidatePath('/producao')
+    revalidatePath('/instalacoes')
+    revalidatePath('/projetos')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao enviar para instalação.' }
   }
 }
 
