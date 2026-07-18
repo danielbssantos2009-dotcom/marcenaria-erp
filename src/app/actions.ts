@@ -20,6 +20,18 @@ export async function addTransaction(formData: FormData) {
 
   // Revalida a página inicial para atualizar a lista instantaneamente
   revalidatePath('/')
+  revalidatePath('/financeiro')
+}
+
+export async function deleteTransaction(id: string) {
+  try {
+    await prisma.transaction.delete({ where: { id } })
+    revalidatePath('/financeiro')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao excluir transação.' }
+  }
 }
 
 export async function addClient(formData: FormData) {
