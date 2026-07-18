@@ -23,16 +23,33 @@ export async function addTransaction(formData: FormData) {
 }
 
 export async function addClient(formData: FormData) {
-  const name = formData.get('name') as string
-  const phone = formData.get('phone') as string
-  const address = formData.get('address') as string
+  try {
+    const name = formData.get('name') as string
+    let phone = formData.get('phone') as string
+    const address = formData.get('address') as string
 
-  await prisma.client.create({
-    data: { name, phone, address }
-  })
-  
-  revalidatePath('/clientes')
-  revalidatePath('/projetos')
+    if (!name) return { error: 'O nome do cliente é obrigatório.' }
+
+    // Limpa tudo que não for dígito, +, -, () ou espaço
+    if (phone) {
+      phone = phone.replace(/[^\d\+\-\(\)\s]/g, '')
+      const digitsOnly = phone.replace(/\D/g, '')
+      if (digitsOnly.length > 0 && digitsOnly.length < 8) {
+        return { error: 'O número de telefone deve ter pelo menos 8 dígitos.' }
+      }
+    }
+
+    await prisma.client.create({
+      data: { name, phone, address }
+    })
+    
+    revalidatePath('/clientes')
+    revalidatePath('/projetos')
+    
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Ocorreu um erro ao salvar o cliente.' }
+  }
 }
 
 export async function addProject(formData: FormData) {

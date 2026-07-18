@@ -11,7 +11,14 @@ export default function NewClientDialog() {
     e.preventDefault()
     setLoading(true)
     const formData = new FormData(e.currentTarget)
-    await addClient(formData)
+    const res = await addClient(formData)
+    
+    if (res?.error) {
+      alert(res.error)
+      setLoading(false)
+      return
+    }
+
     setLoading(false)
     setIsOpen(false)
   }
@@ -36,7 +43,14 @@ export default function NewClientDialog() {
               </div>
               <div>
                 <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Telefone</label>
-                <input type="text" name="phone" className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" />
+                <input 
+                  type="tel" 
+                  name="phone" 
+                  pattern="[\+0-9\-\(\)\s]{8,25}"
+                  title="O número deve conter no mínimo 8 dígitos (pode usar +, - e parênteses)"
+                  onInput={(e) => { e.currentTarget.value = e.currentTarget.value.replace(/[^\d\+\-\(\)\s]/g, '') }}
+                  className="w-full border-0 bg-zinc-100 p-3.5 text-[15px] font-medium text-zinc-900 rounded-xl outline-none focus:ring-2 focus:ring-zinc-900/10 focus:bg-white transition-all" 
+                />
               </div>
               <div>
                 <label className="block text-[13px] font-semibold text-zinc-500 mb-2">Endereço</label>
