@@ -40,7 +40,7 @@ export default function NewAgendaEventDialog({
   return (
     <>
       {children ? (
-        <div onClick={() => setInternalIsOpen(true)} className="cursor-pointer inline-block">
+        <div onClick={() => setInternalIsOpen(true)} className="cursor-pointer block w-full">
           {children}
         </div>
       ) : isOpenProp === undefined ? (
