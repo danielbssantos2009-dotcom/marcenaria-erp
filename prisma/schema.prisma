@@ -44,4 +44,7 @@ model AgendaEvent {
   title     String
   date      DateTime
   time      String?
+  priority  String   @default("MEDIA") // ALTA, MEDIA, BAIXA
+  type      String   @default("OUTRO") // REUNIAO, MEDICAO, INSTALACAO, MANUTENCAO, VISITA, OUTRO
+  status    String   @default("PENDENTE") // PENDENTE, CONCLUIDO
 }

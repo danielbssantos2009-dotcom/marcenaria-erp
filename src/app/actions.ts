@@ -92,19 +92,60 @@ export async function addProject(formData: FormData) {
 }
 
 export async function addAgendaEvent(formData: FormData) {
-  const title = formData.get('title') as string
-  const dateStr = formData.get('date') as string
-  const time = formData.get('time') as string
-  
-  await prisma.agendaEvent.create({
-    data: {
-      title,
-      date: new Date(dateStr),
-      time: time || null
+  try {
+    const title = formData.get('title') as string
+    const date = formData.get('date') as string
+    const time = formData.get('time') as string
+    const priority = formData.get('priority') as string || 'MEDIA'
+    const type = formData.get('type') as string || 'OUTRO'
+
+    if (!title || !date) {
+      return { error: 'Título e data são obrigatórios.' }
     }
-  })
-  
-  revalidatePath('/agenda')
+
+    const eventDate = new Date(`${date}T12:00:00Z`)
+
+    await prisma.agendaEvent.create({
+      data: {
+        title,
+        date: eventDate,
+        time: time || null,
+        priority,
+        type
+      }
+    })
+
+    revalidatePath('/agenda')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao adicionar evento.' }
+  }
+}
+
+export async function updateAgendaEventStatus(id: string, status: string) {
+  try {
+    await prisma.agendaEvent.update({
+      where: { id },
+      data: { status }
+    })
+    revalidatePath('/agenda')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao atualizar evento.' }
+  }
+}
+
+export async function deleteAgendaEvent(id: string) {
+  try {
+    await prisma.agendaEvent.delete({ where: { id } })
+    revalidatePath('/agenda')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao excluir evento.' }
+  }
 }
 
 export async function updateProjectStatus(projectId: string, newStatus: string) {
