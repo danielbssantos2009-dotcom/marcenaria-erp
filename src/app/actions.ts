@@ -137,3 +137,31 @@ export async function wipeDatabase() {
   revalidatePath('/fluxo-caixa')
   revalidatePath('/relatorios')
 }
+
+export async function deleteClient(id: string) {
+  try {
+    const projectsCount = await prisma.project.count({ where: { clientId: id } })
+    if (projectsCount > 0) {
+      return { error: 'Não é possível excluir um cliente que possui projetos. Arquive-o ou exclua os projetos primeiro.' }
+    }
+    await prisma.client.delete({ where: { id } })
+    revalidatePath('/clientes')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao excluir cliente.' }
+  }
+}
+
+export async function toggleArchiveClient(id: string, currentStatus: boolean) {
+  try {
+    await prisma.client.update({
+      where: { id },
+      data: { archived: !currentStatus }
+    })
+    revalidatePath('/clientes')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao arquivar cliente.' }
+  }
+}
