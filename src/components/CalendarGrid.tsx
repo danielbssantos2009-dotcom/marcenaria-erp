@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
 import NewAgendaEventDialog from './NewAgendaEventDialog'
 import { updateAgendaEventStatus } from '@/app/actions'
@@ -22,6 +23,10 @@ export default function CalendarGrid({ events }: { events: any[] }) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDateStr, setSelectedDateStr] = useState<string>('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [selectedEventDetails, setSelectedEventDetails] = useState<any>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
 
   const year = currentDate.getFullYear()
   const month = currentDate.getMonth()
@@ -83,7 +88,7 @@ export default function CalendarGrid({ events }: { events: any[] }) {
   const rows = grid.length / 7
 
   return (
-    <div className="bg-white/60 backdrop-blur-2xl rounded-[32px] shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] border border-white/60 flex flex-col h-full overflow-hidden">
+    <div className="bg-white/60 backdrop-blur-2xl rounded-[32px] shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] border border-white/60 flex flex-col h-auto">
       {/* Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-zinc-100 shrink-0">
         <div className="flex items-center gap-4">
@@ -112,7 +117,7 @@ export default function CalendarGrid({ events }: { events: any[] }) {
         {/* Days Cells */}
         <div 
           className="flex-1 grid grid-cols-7"
-          style={{ gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }}
+          style={{ gridAutoRows: 'minmax(140px, auto)' }}
         >
           {grid.map((cell, i) => {
             const cellEvents = events.filter(e => {
@@ -137,7 +142,7 @@ export default function CalendarGrid({ events }: { events: any[] }) {
                   </span>
                 </div>
                 
-                <div className="flex-1 overflow-y-auto space-y-1.5 scrollbar-hide pr-1">
+                <div className="flex-1 space-y-1.5 pr-1">
                   {cellEvents.map(e => {
                     const isConcluido = e.status === 'CONCLUIDO'
                     const priorityColor = 
@@ -149,10 +154,10 @@ export default function CalendarGrid({ events }: { events: any[] }) {
                       <div 
                         key={e.id}
                         onClick={(evt) => {
-                           // Se não clicar no ícone de check, a div inteira dispara o click do dia e abre a modal de adicionar.
-                           // Se quiser editar no futuro, aqui seria o lugar.
+                           evt.stopPropagation()
+                           setSelectedEventDetails(e)
                         }}
-                        className={`text-[11px] font-bold px-2 py-1.5 rounded-lg border flex items-start gap-1.5 transition-opacity ${isConcluido ? 'opacity-40 grayscale' : ''} ${priorityColor}`}
+                        className={`text-[11px] font-bold px-2 py-1.5 rounded-lg border flex items-start gap-1.5 transition-all hover:scale-[1.02] cursor-pointer shadow-sm ${isConcluido ? 'opacity-40 grayscale' : ''} ${priorityColor}`}
                       >
                         <button 
                           onClick={(evt) => handleToggleStatus(evt, e.id, e.status)}
@@ -160,7 +165,7 @@ export default function CalendarGrid({ events }: { events: any[] }) {
                         >
                           <CheckCircle2 size={12} className={isConcluido ? 'text-green-600' : ''} />
                         </button>
-                        <div className="leading-tight truncate flex-1">
+                        <div className="leading-tight flex-1">
                           {e.time && <span className="opacity-70 mr-1">{e.time}</span>}
                           {e.title}
                         </div>
@@ -179,6 +184,52 @@ export default function CalendarGrid({ events }: { events: any[] }) {
         onClose={() => setIsDialogOpen(false)}
         defaultDate={selectedDateStr}
       />
+
+      {mounted && selectedEventDetails ? createPortal(
+        <div className="fixed inset-0 bg-zinc-900/40 backdrop-blur-md flex items-center justify-center z-[100] p-4" onClick={() => setSelectedEventDetails(null)}>
+          <div className="bg-white/90 backdrop-blur-3xl border border-white/60 rounded-[32px] p-8 w-full max-w-sm shadow-[0_20px_80px_-15px_rgba(0,0,0,0.3)] animate-in fade-in zoom-in-95 duration-200 flex flex-col gap-4" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-start mb-2">
+              <h2 className="text-xl font-bold tracking-tight text-zinc-900 leading-tight">{selectedEventDetails.title}</h2>
+              <button onClick={() => setSelectedEventDetails(null)} className="p-1 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </div>
+            
+            <div className="space-y-3 text-sm text-zinc-600 font-medium">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-zinc-900 w-[80px]">Status:</span> 
+                {selectedEventDetails.status === 'CONCLUIDO' ? <span className="text-green-600 bg-green-100 px-2 py-0.5 rounded-md text-xs">Concluído</span> : <span className="text-orange-600 bg-orange-100 px-2 py-0.5 rounded-md text-xs">Pendente</span>}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-zinc-900 w-[80px]">Data:</span> 
+                {new Date(selectedEventDetails.date).toLocaleDateString('pt-BR')}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-zinc-900 w-[80px]">Horário:</span> 
+                {selectedEventDetails.time || 'O dia todo'}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-zinc-900 w-[80px]">Categoria:</span> 
+                {selectedEventDetails.type}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-zinc-900 w-[80px]">Prioridade:</span> 
+                {selectedEventDetails.priority}
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => {
+                const isConcluido = selectedEventDetails.status === 'CONCLUIDO'
+                updateAgendaEventStatus(selectedEventDetails.id, isConcluido ? 'PENDENTE' : 'CONCLUIDO').then(() => setSelectedEventDetails(null))
+              }}
+              className="mt-4 w-full py-3 rounded-xl bg-zinc-900 text-white font-bold hover:bg-zinc-800 transition-colors shadow-lg shadow-black/10 text-sm"
+            >
+              {selectedEventDetails.status === 'CONCLUIDO' ? 'Reabrir Compromisso' : 'Marcar como Concluído'}
+            </button>
+          </div>
+        </div>
+      , document.body) : null}
     </div>
   )
 }
