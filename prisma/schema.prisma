@@ -20,15 +20,16 @@ model Client {
 }
 
 model Project {
-  id        String    @id @default(cuid())
-  name      String
-  status    String    @default("ORCAMENTO")
-  value     Float
-  clientId  String
-  client    Client    @relation(fields: [clientId], references: [id])
-  deadline  DateTime?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String    @id @default(cuid())
+  name        String
+  status      String    @default("ORCAMENTO")
+  quoteStatus String?   @default("NOVO") // NOVO, MEDICAO, PRECIFICACAO, ENVIADO, APROVADO, RECUSADO
+  value       Float
+  clientId    String
+  client      Client    @relation(fields: [clientId], references: [id])
+  deadline    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Transaction {

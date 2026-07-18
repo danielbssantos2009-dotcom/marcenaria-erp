@@ -160,6 +160,38 @@ export async function updateProjectStatus(projectId: string, newStatus: string) 
   revalidatePath('/instalacoes')
 }
 
+export async function updateQuoteStatus(projectId: string, quoteStatus: string) {
+  try {
+    await prisma.project.update({
+      where: { id: projectId },
+      data: { quoteStatus }
+    })
+    revalidatePath('/orcamentos')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao atualizar orçamento.' }
+  }
+}
+
+export async function approveQuote(projectId: string) {
+  try {
+    await prisma.project.update({
+      where: { id: projectId },
+      data: { 
+        status: 'PRODUCAO', // Sai de ORCAMENTO e vira um projeto em Produção
+        quoteStatus: 'APROVADO'
+      }
+    })
+    revalidatePath('/orcamentos')
+    revalidatePath('/projetos')
+    revalidatePath('/producao')
+    revalidatePath('/')
+    return { success: true }
+  } catch (err: any) {
+    return { error: err.message || 'Erro ao aprovar orçamento.' }
+  }
+}
+
 export async function wipeDatabase() {
   // ATENÇÃO: Apaga todos os dados do banco!
   await prisma.client.deleteMany()
