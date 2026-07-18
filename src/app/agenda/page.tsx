@@ -15,10 +15,10 @@ export default async function AgendaPage() {
   })
 
   return (
-    <div className="animate-in fade-in zoom-in duration-300">
-      <div className="flex flex-col lg:flex-row gap-6">
+    <div className="animate-in fade-in zoom-in duration-300 h-[calc(100vh-120px)] -mt-2">
+      <div className="flex flex-col lg:flex-row gap-6 h-full">
         <AgendaSidebar events={events} />
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 h-full">
           <CalendarGrid events={events} />
         </div>
       </div>

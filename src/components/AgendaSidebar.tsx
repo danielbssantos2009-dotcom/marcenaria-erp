@@ -67,11 +67,12 @@ export default function AgendaSidebar({ events }: { events: any[] }) {
   }
 
   return (
-    <div className="w-[320px] shrink-0 bg-white border border-zinc-100 rounded-[28px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-[calc(100vh-140px)] flex flex-col overflow-hidden">
-      <div className="p-6 border-b border-zinc-100 shrink-0">
-        <h2 className="text-xl font-bold tracking-tight text-zinc-900 mb-4">Visão Geral</h2>
+    <div className="w-[320px] shrink-0 bg-white/60 backdrop-blur-2xl border border-white/60 rounded-[32px] shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] h-full flex flex-col overflow-hidden">
+      <div className="p-6 border-b border-black/5 shrink-0">
+        <h2 className="text-xl font-bold tracking-tight text-zinc-900 mb-5">Visão Geral</h2>
         <NewAgendaEventDialog>
-          <button className="w-full btn-neo btn-neo-dark py-3 text-[14px]">
+          <button className="w-full relative overflow-hidden group bg-zinc-900 text-white rounded-2xl py-3.5 px-4 text-[14px] font-bold shadow-[0_8px_30px_-8px_rgba(0,0,0,0.5)] hover:bg-zinc-800 transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
             + Novo Compromisso
           </button>
         </NewAgendaEventDialog>

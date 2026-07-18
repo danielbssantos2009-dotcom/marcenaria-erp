@@ -80,8 +80,10 @@ export default function CalendarGrid({ events }: { events: any[] }) {
   const today = new Date()
   const isToday = (d: Date) => d.getDate() === today.getDate() && d.getMonth() === today.getMonth() && d.getFullYear() === today.getFullYear()
 
+  const rows = grid.length / 7
+
   return (
-    <div className="bg-white rounded-[28px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-zinc-100 flex flex-col h-[calc(100vh-140px)] overflow-hidden">
+    <div className="bg-white/60 backdrop-blur-2xl rounded-[32px] shadow-[0_8px_40px_-12px_rgba(0,0,0,0.1)] border border-white/60 flex flex-col h-full overflow-hidden">
       {/* Header */}
       <div className="px-6 py-5 flex items-center justify-between border-b border-zinc-100 shrink-0">
         <div className="flex items-center gap-4">
@@ -108,7 +110,10 @@ export default function CalendarGrid({ events }: { events: any[] }) {
         </div>
 
         {/* Days Cells */}
-        <div className="flex-1 grid grid-cols-7 grid-rows-5 overflow-y-auto">
+        <div 
+          className="flex-1 grid grid-cols-7"
+          style={{ gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }}
+        >
           {grid.map((cell, i) => {
             const cellEvents = events.filter(e => {
               const d = new Date(e.date)
@@ -119,8 +124,8 @@ export default function CalendarGrid({ events }: { events: any[] }) {
               <div 
                 key={i} 
                 onClick={() => handleDayClick(cell.date)}
-                className={`min-h-[120px] p-2 border-r border-b border-zinc-100 last:border-r-0 cursor-pointer transition-colors hover:bg-zinc-50/80 flex flex-col
-                  ${!cell.isCurrentMonth ? 'bg-zinc-50/50' : 'bg-white'}`
+                className={`min-h-0 p-2 border-r border-b border-black/5 last:border-r-0 cursor-pointer transition-colors hover:bg-white/80 flex flex-col
+                  ${!cell.isCurrentMonth ? 'bg-black/[0.02]' : 'bg-white/40'}`
                 }
               >
                 <div className="flex justify-between items-start mb-2">
