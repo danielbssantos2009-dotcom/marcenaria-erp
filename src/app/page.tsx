@@ -87,81 +87,89 @@ export default async function DashboardPage() {
     <div className="space-y-6 animate-in fade-in duration-700">
       
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-5 neo-card flex flex-col justify-between h-[300px]">
+        <div className="col-span-12 lg:col-span-5 neo-card flex flex-col justify-between min-w-0 overflow-hidden">
           <div>
             <div className="flex justify-between items-center mb-6">
-              <span className="text-zinc-500 font-medium text-[15px]">Projetos Ativos</span>
-              <span className="bg-zinc-100 text-zinc-600 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1">
+              <span className="text-zinc-500 font-medium text-[15px] truncate">Projetos Ativos</span>
+              <span className="bg-zinc-100 text-zinc-600 px-3 py-1 rounded-full text-[12px] font-semibold flex items-center gap-1 shrink-0">
                 <Briefcase size={14} /> Hoje
               </span>
             </div>
-            <div className="text-[64px] leading-none font-bold text-zinc-900 tracking-tight mb-3">
+            <div className="text-[56px] lg:text-[64px] leading-none font-bold text-zinc-900 tracking-tight mb-3 truncate">
               {activeProjects.length}
             </div>
             <div className="flex items-center gap-2">
-              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold">+{projectsThisMonth}</span> 
-              <span className="text-sm font-medium text-zinc-400">novos projetos este mês</span>
+              <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-xs font-semibold shrink-0">+{projectsThisMonth}</span> 
+              <span className="text-sm font-medium text-zinc-400 truncate">novos projetos este mês</span>
             </div>
           </div>
           <div className="flex gap-4 mt-8">
-            <button className="flex-1 btn-neo btn-neo-dark py-3.5 text-[15px]">
+            <button className="flex-1 btn-neo btn-neo-dark py-3.5 text-[14px] sm:text-[15px] truncate">
               Ver Projetos
             </button>
-            <button className="flex-1 btn-neo btn-neo-light py-3.5 text-[15px]">
+            <button className="flex-1 btn-neo btn-neo-light py-3.5 text-[14px] sm:text-[15px] truncate">
               Novo Projeto
             </button>
           </div>
         </div>
 
-        <div className="col-span-12 lg:col-span-7 grid grid-cols-2 gap-6 h-[300px]">
+        <div className="col-span-12 lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6 min-w-0">
           
-          <div className="neo-card neo-card-gradient flex flex-col justify-between relative overflow-hidden group cursor-pointer">
-            <div className="flex justify-between items-start z-10">
-              <span className="text-xs-mono text-white/80">RECEITA (MÊS ATUAL)</span>
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm"><Wallet size={16} color="white" /></div>
+          <div className="neo-card neo-card-gradient flex flex-col justify-between relative overflow-hidden group cursor-pointer min-w-0">
+            <div className="flex justify-between items-start z-10 mb-4">
+              <span className="text-xs-mono text-white/80 truncate">RECEITA (MÊS)</span>
+              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm shrink-0"><Wallet size={16} color="white" /></div>
             </div>
-            <div className="z-10">
-              <div className="text-[40px] leading-none font-bold tracking-tight mb-2">R$ {revThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+            <div className="z-10 min-w-0">
+              <div className="text-[28px] lg:text-[32px] xl:text-[36px] leading-none font-bold tracking-tight mb-2 truncate">
+                R$ {revThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </div>
               {revDiff === 0 ? (
-                <span className="text-[13px] font-medium text-white/70">&bull; 0% este mês</span>
+                <span className="text-[13px] font-medium text-white/70 block truncate">&bull; 0% este mês</span>
               ) : (
-                <span className="text-[13px] font-medium text-white/90">
+                <span className="text-[13px] font-medium text-white/90 block truncate">
                   {revDiff > 0 ? '↑' : '↓'} {Math.abs(revDiff).toFixed(1)}% este mês
                 </span>
               )}
             </div>
           </div>
           
-          <div className="neo-card flex flex-col justify-between cursor-pointer">
-            <div className="flex justify-between items-start">
-              <span className="text-xs-mono text-zinc-500">DESPESAS (MÊS ATUAL)</span>
-              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><TrendingUp size={16} className="text-zinc-400" /></div>
+          <div className="neo-card flex flex-col justify-between cursor-pointer min-w-0 overflow-hidden">
+            <div className="flex justify-between items-start mb-4">
+              <span className="text-xs-mono text-zinc-500 truncate">DESPESAS (MÊS)</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center shrink-0"><TrendingUp size={16} className="text-zinc-400" /></div>
             </div>
-            <div>
-              <div className="text-[32px] md:text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">R$ {expThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-              <DiffBadge diff={expDiff} inverse />
+            <div className="min-w-0">
+              <div className="text-[28px] lg:text-[32px] xl:text-[36px] leading-none font-bold text-zinc-900 tracking-tight mb-2 truncate">
+                R$ {expThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </div>
+              <div className="truncate"><DiffBadge diff={expDiff} inverse /></div>
             </div>
           </div>
           
-          <div className="neo-card flex flex-col justify-between cursor-pointer">
-            <div className="flex justify-between items-start">
-              <span className="text-xs-mono text-zinc-500">LUCRO (MÊS ATUAL)</span>
-              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><BarChart2 size={16} className="text-zinc-400" /></div>
+          <div className="neo-card flex flex-col justify-between cursor-pointer min-w-0 overflow-hidden">
+            <div className="flex justify-between items-start mb-4">
+              <span className="text-xs-mono text-zinc-500 truncate">LUCRO (MÊS)</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center shrink-0"><BarChart2 size={16} className="text-zinc-400" /></div>
             </div>
-            <div>
-              <div className="text-[32px] md:text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">R$ {profitThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-              <DiffBadge diff={profitDiff} />
+            <div className="min-w-0">
+              <div className="text-[28px] lg:text-[32px] xl:text-[36px] leading-none font-bold text-zinc-900 tracking-tight mb-2 truncate">
+                R$ {profitThisMonth.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+              </div>
+              <div className="truncate"><DiffBadge diff={profitDiff} /></div>
             </div>
           </div>
 
-          <div className="neo-card flex flex-col justify-between cursor-pointer">
-            <div className="flex justify-between items-start">
-              <span className="text-xs-mono text-zinc-500">CONVERSÃO (MÊS ATUAL)</span>
-              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center"><PieChart size={16} className="text-zinc-400" /></div>
+          <div className="neo-card flex flex-col justify-between cursor-pointer min-w-0 overflow-hidden">
+            <div className="flex justify-between items-start mb-4">
+              <span className="text-xs-mono text-zinc-500 truncate">CONVERSÃO (MÊS)</span>
+              <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center shrink-0"><PieChart size={16} className="text-zinc-400" /></div>
             </div>
-            <div>
-              <div className="text-[32px] md:text-[40px] leading-none font-bold text-zinc-900 tracking-tight mb-2">{convThisMonth.toFixed(0)}%</div>
-              <DiffBadge diff={convDiff} />
+            <div className="min-w-0">
+              <div className="text-[28px] lg:text-[32px] xl:text-[36px] leading-none font-bold text-zinc-900 tracking-tight mb-2 truncate">
+                {convThisMonth.toFixed(0)}%
+              </div>
+              <div className="truncate"><DiffBadge diff={convDiff} /></div>
             </div>
           </div>
 
@@ -170,30 +178,32 @@ export default async function DashboardPage() {
 
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 lg:col-span-7 min-w-0 space-y-6">
-          <div className="neo-card">
-            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4">
-               <span className="text-[14px] font-bold text-zinc-800">Receita &bull; Últimos Meses</span>
+          <div className="neo-card flex flex-col h-full overflow-hidden">
+            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4 shrink-0">
+               <span className="text-[14px] font-bold text-zinc-800 truncate">Receita &bull; Últimos Meses</span>
             </div>
-            <div className="h-[250px] w-full">
+            <div className="h-[250px] w-full min-w-0 flex-1">
               <RevenueChart data={chartData} />
             </div>
           </div>
         </div>
 
         <div className="col-span-12 lg:col-span-5 min-w-0">
-           <div className="neo-card h-full">
-            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4">
-              <span className="text-[14px] font-bold text-zinc-800">Transações Recentes</span>
-              <NewTransactionDialog />
+           <div className="neo-card h-full overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center mb-6 border-b border-zinc-100 pb-4 shrink-0 gap-4">
+              <span className="text-[14px] font-bold text-zinc-800 truncate">Transações Recentes</span>
+              <div className="shrink-0">
+                <NewTransactionDialog />
+              </div>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1 overflow-y-auto flex-1">
               {recentTransactions.map(t => (
                 <div key={t.id} className="flex justify-between items-center py-3 hover:bg-zinc-50 px-2 rounded-xl transition-all cursor-pointer">
-                  <div className="flex items-center gap-3">
-                     <div className={`w-2 h-2 rounded-full ${t.type === 'IN' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                     <span className="text-[14px] font-medium text-zinc-700 truncate max-w-[150px] sm:max-w-[200px]">{t.description}</span>
+                  <div className="flex items-center gap-3 min-w-0">
+                     <div className={`w-2 h-2 rounded-full shrink-0 ${t.type === 'IN' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                     <span className="text-[14px] font-medium text-zinc-700 truncate">{t.description}</span>
                   </div>
-                  <div className={`font-semibold text-[15px] whitespace-nowrap ${t.type === 'IN' ? 'text-zinc-900' : 'text-zinc-900'}`}>
+                  <div className={`font-semibold text-[15px] whitespace-nowrap ml-4 shrink-0 ${t.type === 'IN' ? 'text-zinc-900' : 'text-zinc-900'}`}>
                     {t.type === 'IN' ? '+' : '-'} R$ {Math.abs(t.value).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                   </div>
                 </div>
